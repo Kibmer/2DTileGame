@@ -21,15 +21,15 @@ public:
 	static ResourceManager* GetInstance();
 
 private:
-	std::map<LPCWSTR, Texture*> _textureMap;
+	std::map<std::wstring, Texture*> _textureMap;
 
 public:
-	Texture* LoadTexture(LPCWSTR TextureFilename);
+	Texture* LoadTexture(std::wstring TextureFilename);
 	
 	//Script
 private:
-	std::map<LPCWSTR, std::vector<std::string>> _scriptMap;
+	std::map<std::wstring, std::vector<std::string>> _scriptMap;
 
 public:
-	std::vector<std::string> LoadScript(LPCWSTR scriptFilename);
+	std::vector<std::string> LoadScript(std::wstring scriptFilename);
 };

@@ -17,22 +17,22 @@ ResourceManager* ResourceManager::GetInstance() {
 	return _instance;
 }
 
-Texture* ResourceManager::LoadTexture(LPCWSTR textureFilename) {
-	map<LPCWSTR, Texture*>::iterator it = _textureMap.find(textureFilename);
+Texture* ResourceManager::LoadTexture(std::wstring textureFilename) {
+	map<std::wstring, Texture*>::iterator it = _textureMap.find(textureFilename);
 	if (it != _textureMap.end()) {
 		return it->second;
 	}
 
 	Texture* texture = new Texture();
-	texture->Init(textureFilename);
+	texture->Init(textureFilename.c_str());
 
 	_textureMap[textureFilename] = texture;
 
 	return texture;
 }
 
-vector<string> ResourceManager::LoadScript(LPCWSTR scriptFilename) {
-	map<LPCWSTR, vector<string>>::iterator it = _scriptMap.find(scriptFilename);
+vector<string> ResourceManager::LoadScript(wstring scriptFilename) {
+	map<wstring, vector<string>>::iterator it = _scriptMap.find(scriptFilename);
 	if (it != _scriptMap.end()) {
 		return it->second;
 	}
