@@ -3,7 +3,9 @@
 #include "GameSystem.h"
 #include "GameTimer.h"
 #include "Map.h"
-#include "Character.h"
+//#include "Character.h"
+#include "NPC.h"
+#include "Player.h"
 #include "ComponentSystem.h"
 
 GameSystem* GameSystem::_instance = NULL;
@@ -15,13 +17,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 
 	case WM_KEYDOWN:
+		GameSystem::GetInstance()->KeyDown(wParam);
 		if (VK_ESCAPE == wParam) {
 			ComponentSystem::GetInstance()->RemoveAllComponents();
 			DestroyWindow(hWnd);
 		}
 		
 		//Scroll Test
-		if (VK_LEFT == wParam) {
+		/*if (VK_LEFT == wParam) {
 			GameSystem::GetInstance()->MapScrollTest(3.0f, 0.0f);
 		}
 		if (VK_RIGHT == wParam) {
@@ -32,11 +35,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		if (VK_DOWN == wParam) {
 			GameSystem::GetInstance()->MapScrollTest(0.0f, -3.0f);
-		}
+		}*/
 		return 0;
 
 	case WM_KEYUP:
-		GameSystem::GetInstance()->MapScrollTest(0.0f, 0.0f);
+		//GameSystem::GetInstance()->MapScrollTest(0.0f, 0.0f);
+		GameSystem::GetInstance()->KeyUp(wParam);
 		break;
 
 	case WM_DESTROY:
@@ -132,10 +136,15 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 	{
 		return false;
 	}
+
+	InitInput();
+
 	_map = new Map(L"Map");
 	_map->Init();
 
-	_character = new Character(L"testCharacter");
+	//_character = new Character(L"testCharacter");
+	//_character = new NPC(L"npc");
+	_character = new Player(L"npc");
 	_character->Init();
 
 	return true;
@@ -293,6 +302,20 @@ void GameSystem::CheckDeviceLost()
 LPD3DXSPRITE GameSystem::GetSprite() {
 	return _sprite;
 }
+
+void GameSystem::InitInput() {
+	for (int i = 0; i < 256; i++) {
+		_keyState[i] = eKeyState::KEY_DOWN;
+	}
+}
+
+void GameSystem::KeyDown(unsigned int keyCode) {
+	_keyState[keyCode] = eKeyState::KEY_DOWN;
+}
+void GameSystem::KeyUp(unsigned int keyCode) {
+	_keyState[keyCode] = eKeyState::KEY_UP;
+}
+
 LPDIRECT3DDEVICE9 GameSystem::GetDevice() {
 	return _device3d;
 }

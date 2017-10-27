@@ -28,6 +28,9 @@
     <Filter Include="소스 파일\Game\Map">
       <UniqueIdentifier>{e3d0c450-f17b-43d7-92bb-a8a4cf2f7813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Character">
+      <UniqueIdentifier>{715856d7-17fd-4f2d-9c76-8ce96963b5de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,9 +54,6 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일\System</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
     <ClCompile Include="ComponentSystem.cpp">
       <Filter>소스 파일\System\ComponentSystem</Filter>
     </ClCompile>
@@ -65,6 +65,15 @@
     </ClCompile>
     <ClCompile Include="TileCell.cpp">
       <Filter>소스 파일\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>소스 파일\Game\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>소스 파일\Game\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\Game\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,9 +95,6 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>소스 파일\System</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentSystem.h">
       <Filter>소스 파일\System\ComponentSystem</Filter>
     </ClInclude>
@@ -100,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="TileCell.h">
       <Filter>소스 파일\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>소스 파일\Game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>소스 파일\Game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\Game\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

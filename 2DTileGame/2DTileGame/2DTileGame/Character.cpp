@@ -111,10 +111,7 @@ void Character::MoveDeltaPosition(float deltaX, float deltaY) {
 }
 
 void Character::UpdateAI(float deltaTime) {
-	if (false == _isMoving) {
-		int direction = rand() % 4;
-		MoveStart((eDirection)direction);
-	}
+
 }
 
 void Character::InitMove() {

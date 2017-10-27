@@ -57,6 +57,21 @@ public:
 	LPD3DXSPRITE GetSprite();
 	LPDIRECT3DDEVICE9 GetDevice();
 	
+	// Input
+public:
+	enum eKeyState {
+		KEY_DOWN,
+		KEY_UP
+	};
+	
+private:
+	eKeyState _keyState[256];
+
+public:
+	void KeyDown(unsigned int keyCode);
+	void KeyUp(unsigned int keyCode);
+	void InitInput();
+
 	//Map
 private:
 	/*Sprite* _testTileMap[MAP_HEIGHT][MAP_WIDTH];

@@ -33,7 +33,7 @@ public:
 	void MoveDeltaPosition(float deltaX, float deltaY);
 
 public:
-	void UpdateAI(float deltaTime);
+	virtual void UpdateAI(float deltaTime);
 	void UpdateMove(float deltaTime);
 
 public:
@@ -44,7 +44,7 @@ public:
 		DOWN
 	};
 
-private:
+protected:
 	float _targetX;
 	float _targetY;
 	float _moveDistancePerTimeX;
