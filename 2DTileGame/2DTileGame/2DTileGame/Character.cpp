@@ -9,6 +9,8 @@ Character::Character(LPCWSTR name) : Component(name) {
 	_moveDistancePerTimeX = 0.0f;
 	_moveDistancePerTimeY = 0.0f;
 	_spriteList.clear();
+
+	_moveTime = 1.0f;
 }
 
 Character::~Character() {
@@ -117,7 +119,6 @@ void Character::UpdateAI(float deltaTime) {
 void Character::InitMove() {
 	_isMoving = false;
 	_movingDuration = 0.0f;
-	_moveTime = 1.0f;
 
 	_currentDirection = eDirection::DOWN;
 }
@@ -191,8 +192,10 @@ void Character::UpdateMove(float deltaTime) {
 	if (_moveTime <= _movingDuration) {
 		_movingDuration = 0.0f;
 		_isMoving = false;
-		_x = _targetX;
-		_y = _targetY;
+
+		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
+		/*_x = map->GetPositionX(_tileX, _tileY);
+		_y = map->GetPositionY(_tileX, _tileY);*/
 	}
 	else {
 		_movingDuration += deltaTime;
@@ -200,7 +203,7 @@ void Character::UpdateMove(float deltaTime) {
 		float moveDistanceX = _moveDistancePerTimeX * deltaTime;
 		float moveDistanceY = _moveDistancePerTimeY * deltaTime;
 
-		_x += moveDistanceX;
-		_y += moveDistanceY;
+		/*_x += moveDistanceX;
+		_y += moveDistanceY;*/
 	}
 }

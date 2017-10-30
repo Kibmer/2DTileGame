@@ -3,7 +3,6 @@
 #include "GameSystem.h"
 #include "GameTimer.h"
 #include "Map.h"
-//#include "Character.h"
 #include "NPC.h"
 #include "Player.h"
 #include "ComponentSystem.h"
@@ -62,21 +61,10 @@ GameSystem::GameSystem()
 	_isFullScreen = false;
 
 	_map = NULL;
-	_character = NULL;
+	_player = NULL;
 }
 GameSystem::~GameSystem()
 {
-	if (NULL != _map) {
-		_map->Deinit();
-		delete _map;
-		_map = NULL;
-	}
-
-	if (NULL != _character) {
-		_character->Deinit();
-		delete _character;
-		_character = NULL;
-	}
 }
 
 bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
@@ -144,8 +132,11 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 
 	//_character = new Character(L"testCharacter");
 	//_character = new NPC(L"npc");
-	_character = new Player(L"npc");
-	_character->Init();
+	_player = new Player(L"npc");
+	_player->Init();
+
+	_npc = new NPC(L"npc");
+	_npc->Init();
 
 	return true;
 }
@@ -173,8 +164,9 @@ int GameSystem::Update()
 			_frameDuration += deltaTime;
 
 			_map->Update(deltaTime);
-			_character->Update(deltaTime);
-			
+			_player->Update(deltaTime);
+			_npc->Update(deltaTime);
+
 			if (secPerFrame <= _frameDuration)
 			{
 				wchar_t timeCheck[256];
@@ -189,7 +181,8 @@ int GameSystem::Update()
 				_sprite->Begin(D3DXSPRITE_ALPHABLEND);
 				
 				_map->Render();
-				_character->Render();
+				_player->Render();
+				_npc->Render();
 			
 				_sprite->End();
 				
@@ -289,13 +282,15 @@ void GameSystem::CheckDeviceLost()
 		else if (D3DERR_DEVICENOTRESET == hr) //device 다시 작동 가능
 		{
 			_map->Release();
-			_character->Release();
+			_player->Release();
+			_npc->Release();
 
 			InitDirect3D();
 			hr = _device3d->Reset(&_d3dpp);
 			
 			_map->Reset();
-			_character->Reset();
+			_player->Reset();
+			_npc->Reset();
 		}
 	}
 }
@@ -305,7 +300,7 @@ LPD3DXSPRITE GameSystem::GetSprite() {
 
 void GameSystem::InitInput() {
 	for (int i = 0; i < 256; i++) {
-		_keyState[i] = eKeyState::KEY_DOWN;
+		_keyState[i] = eKeyState::KEY_UP;
 	}
 }
 
@@ -314,6 +309,10 @@ void GameSystem::KeyDown(unsigned int keyCode) {
 }
 void GameSystem::KeyUp(unsigned int keyCode) {
 	_keyState[keyCode] = eKeyState::KEY_UP;
+}
+
+bool GameSystem::IsKeyDown(unsigned int keyCode) {
+	return(eKeyState::KEY_DOWN == _keyState[keyCode]);
 }
 
 LPDIRECT3DDEVICE9 GameSystem::GetDevice() {

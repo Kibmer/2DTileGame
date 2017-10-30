@@ -71,7 +71,8 @@ public:
 	void KeyDown(unsigned int keyCode);
 	void KeyUp(unsigned int keyCode);
 	void InitInput();
-
+	bool IsKeyDown(unsigned int keyCode);
+	
 	//Map
 private:
 	/*Sprite* _testTileMap[MAP_HEIGHT][MAP_WIDTH];
@@ -81,7 +82,8 @@ private:
 	float _deltaY;*/
 
 	Map* _map;
-	Character* _character;
+	Character* _player;
+	Character* _npc;
 
 public:
 	void MapScrollTest(float deltaX, float deltaY);

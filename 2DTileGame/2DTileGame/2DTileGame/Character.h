@@ -34,7 +34,7 @@ public:
 
 public:
 	virtual void UpdateAI(float deltaTime);
-	void UpdateMove(float deltaTime);
+	virtual void UpdateMove(float deltaTime);
 
 public:
 	enum eDirection {
