@@ -141,7 +141,7 @@ void Character::MoveStart(eDirection direction) {
 		break;
 	case eDirection::RIGHT: // right
 		_tileX++;
-		if (_tileX > 20) {
+		if (_tileX > 30) {
 			_tileX = 0;
 		}
 		break;
@@ -153,7 +153,7 @@ void Character::MoveStart(eDirection direction) {
 		break;
 	case eDirection::DOWN: // down
 		_tileY++;
-		if (_tileX > 20) {
+		if (_tileX > 30) {
 			_tileX = 0;
 		}
 		break;
@@ -194,8 +194,8 @@ void Character::UpdateMove(float deltaTime) {
 		_isMoving = false;
 
 		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
-		/*_x = map->GetPositionX(_tileX, _tileY);
-		_y = map->GetPositionY(_tileX, _tileY);*/
+		_x = map->GetPositionX(_tileX, _tileY);
+		_y = map->GetPositionY(_tileX, _tileY);
 	}
 	else {
 		_movingDuration += deltaTime;
@@ -203,7 +203,7 @@ void Character::UpdateMove(float deltaTime) {
 		float moveDistanceX = _moveDistancePerTimeX * deltaTime;
 		float moveDistanceY = _moveDistancePerTimeY * deltaTime;
 
-		/*_x += moveDistanceX;
-		_y += moveDistanceY;*/
+		_x += moveDistanceX;
+		_y += moveDistanceY;
 	}
 }

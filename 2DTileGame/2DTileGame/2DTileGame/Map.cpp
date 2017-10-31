@@ -150,6 +150,7 @@ void Map::Update(float deltaTime)
 	{
 		for (int x = 0; x < _width; x++)
 		{
+			_tileMap[y][x]->MoveDeltaPosition(_deltaX, _deltaY);
 			_tileMap[y][x]->Update(deltaTime);
 		}
 	}
@@ -176,7 +177,6 @@ void Map::Render()
 	{
 		for (int x = 0; x < _width; x++)
 		{
-			_tileMap[y][x]->MoveDeltaPosition(_deltaX, _deltaY);
 			_tileMap[y][x]->Render();
 		}
 	}

@@ -62,6 +62,7 @@ GameSystem::GameSystem()
 
 	_map = NULL;
 	_player = NULL;
+	_npc = NULL;
 }
 GameSystem::~GameSystem()
 {
@@ -132,7 +133,7 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 
 	//_character = new Character(L"testCharacter");
 	//_character = new NPC(L"npc");
-	_player = new Player(L"npc");
+	_player = new Player(L"player");
 	_player->Init();
 
 	_npc = new NPC(L"npc");
@@ -170,7 +171,7 @@ int GameSystem::Update()
 			if (secPerFrame <= _frameDuration)
 			{
 				wchar_t timeCheck[256];
-				swprintf(timeCheck, L"deltaTime %f\n", _frameDuration);
+				//swprintf(timeCheck, L"deltaTime %f\n", _frameDuration);
 				OutputDebugString(timeCheck);
 
 				_frameDuration = 0.0f;

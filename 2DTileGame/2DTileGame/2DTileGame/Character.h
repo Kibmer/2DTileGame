@@ -30,7 +30,7 @@ public:
 
 	//transform
 public:
-	void MoveDeltaPosition(float deltaX, float deltaY);
+	virtual void MoveDeltaPosition(float deltaX, float deltaY);
 
 public:
 	virtual void UpdateAI(float deltaTime);

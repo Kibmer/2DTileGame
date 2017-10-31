@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameSystem.h"
 #include "ComponentSystem.h"
+#include "Map.h"
 
 Player::Player(LPCWSTR name) : Character(name){
 	_moveTime = 0.5f;
@@ -35,9 +36,10 @@ void Player::UpdateMove(float deltaTime) {
 		_movingDuration = 0.0f;
 		_isMoving = false;
 
-		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
 		/*_x = map->GetPositionX(_tileX, _tileY);
 		_y = map->GetPositionY(_tileX, _tileY);*/
+		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
+		map->Scroll(0.0f, 0.0f);
 	}
 	else {
 		_movingDuration += deltaTime;
@@ -47,5 +49,11 @@ void Player::UpdateMove(float deltaTime) {
 
 		/*_x += moveDistanceX;
 		_y += moveDistanceY;*/
+		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
+		map->Scroll(-moveDistanceX, -moveDistanceY);
 	}
+}
+
+void Player::MoveDeltaPosition(float deltaX, float deltaY) {
+
 }

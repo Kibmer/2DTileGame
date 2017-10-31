@@ -18,6 +18,7 @@ void TileCell::Update(float deltaTime) {
 	_sprite->Update(deltaTime);
 }
 void TileCell::Render() {
+	_sprite->SetPosition(_posX, _posY);
 	_sprite->Render();
 
 	for (std::list<Component*>::iterator it = _renderList.begin(); it != _renderList.end(); it++)
@@ -56,7 +57,7 @@ void TileCell::AddComponent(Component* component, bool isRender) {
 	}
 }
 void TileCell::RemoveComponent(Component* component) {
-	_componentList.push_back(component);
+	_componentList.remove(component);
 	_renderList.remove(component);
 }
 
