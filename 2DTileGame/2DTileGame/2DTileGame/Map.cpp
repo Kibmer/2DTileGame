@@ -36,11 +36,11 @@ void Map::Init()
 	_width = 32;
 	_height = 32;
 
-	//Load Map Script
+	//Load Map Script 1Ãþ
 	{
 		int line = 0;
 		char record[1024];
-		std::ifstream infile("MapData.csv");
+		std::ifstream infile("MapData_layer1.csv");
 		while (!infile.eof()) {
 			infile.getline(record, 1024);
 
@@ -71,6 +71,44 @@ void Map::Init()
 						token = strtok(NULL, ",");
 					}
 					_tileMap.push_back(rowList);
+				}
+			}
+			line++;
+		}
+	}
+
+	// 2Ãþ ·Îµå
+
+	{
+		int line = 0;
+		int row = 0;
+
+		char record[1024];
+		std::ifstream infile("MapData_layer2.csv");
+		while (!infile.eof()) {
+			infile.getline(record, 1024);
+
+			char* token = strtok(record, ",");
+			switch (line) {
+			case 0:
+				break;
+			case 1:
+				break;
+			default:
+				//map data
+				if (NULL != token) {
+					//std::vector<Sprite*> rowList;
+					std::vector<TileCell*> rowList = _tileMap[row];
+					for (int x = 0; x < _width; x++)
+					{
+						int index = atoi(token);
+						if (0 <= index) {
+							TileCell* tileCell = rowList[x];
+							tileCell->SetSprite(_spriteList[index]);
+						}
+						token = strtok(NULL, ",");
+					}
+					row++;
 				}
 			}
 			line++;
