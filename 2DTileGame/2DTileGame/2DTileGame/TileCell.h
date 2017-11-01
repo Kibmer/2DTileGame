@@ -34,4 +34,5 @@ public:
 	void AddComponent(Component* component, bool isRender);
 	void RemoveComponent(Component* component);
 
+	bool CanMove();
 };

@@ -130,34 +130,57 @@ void Character::MoveStart(eDirection direction) {
 	_currentDirection = direction;
 
 	Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
-	map->ResetTileComponent(_tileX, _tileY, this);
+	int newTileX = _tileX;
+	int newTileY = _tileY;
 
 	switch (direction) {
 	case eDirection::LEFT: // left
-		_tileX--;
-		if (_tileX < 0) {
-			_tileX = 0;
-		}
+		newTileX--;
 		break;
 	case eDirection::RIGHT: // right
-		_tileX++;
-		if (_tileX > 30) {
-			_tileX = 0;
-		}
+		newTileX++;
 		break;
 	case eDirection::UP: // up
-		_tileY--;
-		if (_tileY < 0) {
-			_tileY = 0;
-		}
+		newTileY--;
 		break;
 	case eDirection::DOWN: // down
-		_tileY++;
-		if (_tileX > 30) {
-			_tileX = 0;
-		}
+		newTileY++;
 		break;
 	}
+
+	if (false == map->CanMoveTileMap(newTileX, newTileY))
+		return;
+
+	map->ResetTileComponent(_tileX, _tileY, this);
+	_tileX = newTileX;
+	_tileY = newTileY;
+
+	//switch (direction) {
+	//case eDirection::LEFT: // left
+	//	_tileX--;
+	//	if (_tileX < 0) {
+	//		_tileX = 0;
+	//	}
+	//	break;
+	//case eDirection::RIGHT: // right
+	//	_tileX++;
+	//	if (_tileX > 30) {
+	//		_tileX = 0;
+	//	}
+	//	break;
+	//case eDirection::UP: // up
+	//	_tileY--;
+	//	if (_tileY < 0) {
+	//		_tileY = 0;
+	//	}
+	//	break;
+	//case eDirection::DOWN: // down
+	//	_tileY++;
+	//	if (_tileX > 30) {
+	//		_tileX = 0;
+	//	}
+	//	break;
+	//}
 /*
 	_x = map->GetPositionX(_tileX, _tileY);
 	_y = map->GetPositionY(_tileX, _tileY);

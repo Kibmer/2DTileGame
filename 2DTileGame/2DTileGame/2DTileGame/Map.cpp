@@ -66,12 +66,10 @@ void Map::Init()
 					{
 						int index = atoi(token);
 						TileCell* tileCell = new TileCell();
-						//rowList.push_back(_spriteList[index]);
 						WCHAR componentName[256];
 						wprintf(componentName, L"map_layer01_%d_%d", line, x);
 						TileObject* tileObject = new TileObject(componentName, _spriteList[index]);
 						tileCell->AddComponent(tileObject, true);
-						//tileCell->SetSprite(_spriteList[index]);
 						rowList.push_back(tileCell);
 						token = strtok(NULL, ",");
 					}
@@ -113,6 +111,7 @@ void Map::Init()
 							WCHAR componentName[256];
 							wsprintf(componentName, L"map_layer02_%d_%d", line, x);
 							TileObject* tileObject = new TileObject(componentName, _spriteList[index]);
+							tileObject->SetCanMove(false);
 							tileCell->AddComponent(tileObject, true);
 						}
 						token = strtok(NULL, ",");
@@ -269,4 +268,17 @@ void Map::SetTileComponent(int tileX, int tileY, Component* component, bool isRe
 
 void Map::ResetTileComponent(int tileX, int tileY, Component* component) {
 	_tileMap[tileX][tileY]->RemoveComponent(component);
+}
+
+bool Map::CanMoveTileMap(int tileX, int tileY) {
+	if (tileX < 0)
+		return false;
+	if (_width <= tileX)
+		return false;
+	if (tileY < 0)
+		return false;
+	if (_width <= tileY)
+		return false;
+
+	return _tileMap[tileY][tileX]->CanMove();
 }

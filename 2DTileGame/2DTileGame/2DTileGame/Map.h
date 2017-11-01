@@ -39,4 +39,6 @@ public:
 
 	void SetTileComponent(int tileX, int tileY, Component* component, bool isRender);
 	void ResetTileComponent(int tileX, int tileY, Component* component);
+
+	bool CanMoveTileMap(int tileX, int tileY);
 };

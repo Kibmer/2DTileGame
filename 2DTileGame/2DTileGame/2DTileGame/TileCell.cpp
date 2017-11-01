@@ -76,3 +76,13 @@ void TileCell::RemoveComponent(Component* component) {
 	_componentList.remove(component);
 	_renderList.remove(component);
 }
+
+bool TileCell::CanMove() {
+	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++)
+	{
+		if (false == (*it)->CanMove())
+			return false;
+	}
+
+	return true;
+}
