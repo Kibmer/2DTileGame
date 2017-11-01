@@ -7,7 +7,7 @@ class Component;
 
 class TileCell {
 private:
-	Sprite* _sprite;
+	//Sprite* _sprite;
 	float _posX;
 	float _posY;
 
@@ -29,7 +29,7 @@ public:
 	float GetPositionX();
 	float GetPositionY();
 
-	void SetSprite(Sprite* sprite);
+	//void SetSprite(Sprite* sprite);
 
 	void AddComponent(Component* component, bool isRender);
 	void RemoveComponent(Component* component);

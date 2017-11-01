@@ -1,7 +1,8 @@
 #include <fstream>
 
-#include "TileCell.h"
 #include "Sprite.h"
+#include "TileCell.h"
+#include "TileObject.h"
 #include "Map.h"
 
 Map::Map(LPCWSTR mapName) : Component(mapName)
@@ -64,9 +65,13 @@ void Map::Init()
 					for (int x = 0; x < _width; x++)
 					{
 						int index = atoi(token);
-						//rowList.push_back(_spriteList[index]);
 						TileCell* tileCell = new TileCell();
-						tileCell->SetSprite(_spriteList[index]);
+						//rowList.push_back(_spriteList[index]);
+						WCHAR componentName[256];
+						wprintf(componentName, L"map_layer01_%d_%d", line, x);
+						TileObject* tileObject = new TileObject(componentName, _spriteList[index]);
+						tileCell->AddComponent(tileObject, true);
+						//tileCell->SetSprite(_spriteList[index]);
 						rowList.push_back(tileCell);
 						token = strtok(NULL, ",");
 					}
@@ -103,8 +108,12 @@ void Map::Init()
 					{
 						int index = atoi(token);
 						if (0 <= index) {
+
 							TileCell* tileCell = rowList[x];
-							tileCell->SetSprite(_spriteList[index]);
+							WCHAR componentName[256];
+							wsprintf(componentName, L"map_layer02_%d_%d", line, x);
+							TileObject* tileObject = new TileObject(componentName, _spriteList[index]);
+							tileCell->AddComponent(tileObject, true);
 						}
 						token = strtok(NULL, ",");
 					}

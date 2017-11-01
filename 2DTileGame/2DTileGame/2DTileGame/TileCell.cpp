@@ -1,6 +1,5 @@
 #include "Component.h"
 #include "TileCell.h"
-#include "Sprite.h"
 #include <list>
 
 TileCell::TileCell() {
@@ -12,14 +11,13 @@ TileCell::~TileCell() {
 }
 
 void TileCell::Deinit() {
-	_sprite->Deinit();
+	
 }
 void TileCell::Update(float deltaTime) {
-	_sprite->Update(deltaTime);
+	
 }
 void TileCell::Render() {
-	_sprite->SetPosition(_posX, _posY);
-	_sprite->Render();
+	
 
 	for (std::list<Component*>::iterator it = _renderList.begin(); it != _renderList.end(); it++)
 	{
@@ -27,19 +25,37 @@ void TileCell::Render() {
 	}
 }
 void TileCell::Release() {
-	_sprite->Release();
+	
 }
 void TileCell::Reset() {
-	_sprite->Reset();
+	
 }
 
 void TileCell::SetPosition(float posX, float posY) {
 	_posX = posX;
 	_posY = posY;
-	_sprite->SetPosition(posX, posY);
+	//_sprite->SetPosition(posX, posY);
+
+	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++)
+	{
+		(*it)->SetPosition(posX, posY);
+	}
 }
-void TileCell::SetSprite(Sprite* sprite) {
-	_sprite = sprite;
+
+//void TileCell::SetSprite(Sprite* sprite) {
+//	_sprite = sprite;
+//}
+
+
+void TileCell::MoveDeltaPosition(float deltaX, float deltaY) {
+	_posX += deltaX;
+	_posY += deltaY;
+	//_sprite->SetPosition(_posX, _posY);
+
+	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++)
+	{
+		(*it)->MoveDeltaPosition(deltaX, deltaY);
+	}
 }
 
 float TileCell::GetPositionX() {
@@ -59,15 +75,4 @@ void TileCell::AddComponent(Component* component, bool isRender) {
 void TileCell::RemoveComponent(Component* component) {
 	_componentList.remove(component);
 	_renderList.remove(component);
-}
-
-void TileCell::MoveDeltaPosition(float deltaX, float deltaY) {
-	_posX += deltaX;
-	_posY += deltaY;
-	_sprite->SetPosition(_posX, _posY);
-
-	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++)
-	{
-		(*it)->MoveDeltaPosition(deltaX, deltaY);
-	}
 }

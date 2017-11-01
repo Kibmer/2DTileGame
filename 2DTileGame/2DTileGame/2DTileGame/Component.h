@@ -18,4 +18,6 @@ public:
 	virtual void Reset() = 0;
 
 	virtual void MoveDeltaPosition(float deltaX, float deltaY) {}
+	virtual void SetPosition(float posX, float posY) {}
+
 };

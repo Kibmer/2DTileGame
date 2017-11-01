@@ -157,6 +157,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TileCell.cpp" />
+    <ClCompile Include="TileObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TileCell.h" />
+    <ClInclude Include="TileObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
