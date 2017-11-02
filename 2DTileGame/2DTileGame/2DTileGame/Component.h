@@ -6,6 +6,9 @@ protected:
 	LPCWSTR _name;
 	bool _canMove;
 
+	int _tileX;
+	int _tileY;
+
 public:
 	Component() {
 		_canMove = true;
@@ -26,4 +29,6 @@ public:
 	void SetCanMove(bool canMove) { _canMove = canMove; }
 	bool CanMove() { return _canMove; }
 
+	int GetTileX() { return _tileX; }
+	int GetTileY() { return _tileY; }
 };

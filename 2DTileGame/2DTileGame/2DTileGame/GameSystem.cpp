@@ -131,13 +131,15 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 	_map = new Map(L"Map");
 	_map->Init();
 
-	//_character = new Character(L"testCharacter");
-	//_character = new NPC(L"npc");
 	_player = new Player(L"player");
+	_player->SetCanMove(false);
 	_player->Init();
 
 	_npc = new NPC(L"npc");
+	_npc->SetCanMove(false);
 	_npc->Init();
+
+	_map->InitViewer(_player);
 
 	return true;
 }

@@ -17,8 +17,6 @@ void TileCell::Update(float deltaTime) {
 	
 }
 void TileCell::Render() {
-	
-
 	for (std::list<Component*>::iterator it = _renderList.begin(); it != _renderList.end(); it++)
 	{
 		(*it)->Render();

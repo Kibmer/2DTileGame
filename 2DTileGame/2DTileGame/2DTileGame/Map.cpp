@@ -1,5 +1,6 @@
 #include <fstream>
 
+#include "GameSystem.h"
 #include "Sprite.h"
 #include "TileCell.h"
 #include "TileObject.h"
@@ -123,32 +124,20 @@ void Map::Init()
 		}
 	}
 
-	_startX += _deltaX;
-	_startY += _deltaY;
-	float posX = _startX;
-	float posY = _startY;
+	//_startX += _deltaX;
+	//_startY += _deltaY;
+	//float posX = _startX;
+	//float posY = _startY;
 
-	for (int y = 0; y < _height; y++)
-	{
-		for (int x = 0; x < _width; x++)
-		{
-			_tileMap[y][x]->SetPosition(posX, posY);
-			posX += _tileSize; //tileSize = 32
-		}
-		posX = _startX;
-		posY += _tileSize;
-	}
-	//int index = 0;
-	//for (int y = 0; y < _height; y++) //MAP_HEIGHT가 유동적으로 바뀔 수 있도록 리팩토링 -> 제이슨에서 map 사이즈를 가지고와서 적용
+	//for (int y = 0; y < _height; y++)
 	//{
-	//	std::vector<Sprite*> rowList;
 	//	for (int x = 0; x < _width; x++)
 	//	{
-	//		//_tileMap[y][x] = _spriteList[index]; 
-	//		rowList.push_back(_spriteList[index]);
-	//		index++;
+	//		_tileMap[y][x]->SetPosition(posX, posY);
+	//		posX += _tileSize; //tileSize = 32
 	//	}
-	//	_tileMap.push_back(rowList);
+	//	posX = _startX;
+	//	posY += _tileSize;
 	//}
 	/*
 	for (int y = 0; y < MAP_HEIGHT; y++)
@@ -203,22 +192,6 @@ void Map::Update(float deltaTime)
 }
 void Map::Render()
 {
-	//_startX += _deltaX;
-	//_startY += _deltaY;
-	//float posX = _startX;
-	//float posY = _startY;
-
-	//for (int y = 0; y < _height; y++)
-	//{
-	//	for (int x = 0; x < _width; x++)
-	//	{
-	//		_tileMap[y][x]->SetPosition(posX, posY);
-	//		_tileMap[y][x]->Render();
-	//		posX += _tileSize; //tileSize = 32
-	//	}
-	//	posX = _startX;
-	//	posY += _tileSize;
-	//}
 	for (int y = 0; y < _height; y++)
 	{
 		for (int x = 0; x < _width; x++)
@@ -281,4 +254,50 @@ bool Map::CanMoveTileMap(int tileX, int tileY) {
 		return false;
 
 	return _tileMap[tileY][tileX]->CanMove();
+}
+
+
+void Map::InitViewer(Component* viewer) {
+	Component* _viewer = viewer;
+	// 뷰어를 중심으로 렌더링할 영역을 구한다.
+	int midX = GameSystem::GetInstance()->GetClientWidth() / 2;
+	int midY = GameSystem::GetInstance()->GetClientHeight() / 2;
+
+	// 최소 x = 뷰어의 현재 타일 x의 위치 - (중심축 / 타일사이즈)-1,
+	int minX = _viewer->GetTileX() - (midX / _tileSize) - 1;
+
+	// 최대 x = 뷰어의 현재 타일 x의 위치 + (중심축 / 타일사이즈)+1,
+	int maxX = _viewer->GetTileX() - (midX / _tileSize) + 1;
+
+	// 최소 y = 뷰어의 현재 타일 y의 위치 - (중심축 / 타일사이즈)-1, 
+	int minY = _viewer->GetTileY() - (midX / _tileSize) - 1;
+
+	// 최대 y = 뷰어의 현재 타일 y의 위치 - (중심축 / 타일사이즈)+1
+	int maxY = _viewer->GetTileY() - (midX / _tileSize) + 1;
+
+	// 범위가 벗어날 경우 보정
+	if (minX < 0)
+		minX = 0;
+	if (_width <= maxX)
+		maxX = _width - 1;
+	if (minY < 0)
+		minY = 0;
+	if (_height <= maxY)
+		maxY = _height - 1;
+
+	// 뷰어의 위치를 기준으로 시작 픽셀 위치를 계산
+	_startX = (-_viewer->GetTileX() * _tileSize) + midX - _tileSize / 2;
+	_startY = (-_viewer->GetTileY() * _tileSize) + midY - _tileSize / 2;
+
+	// 해당 위치에 맞게 타일을 그려줌
+	float posX = _startX;
+	float posY = _startY;
+	for (int y = 0; y < _height; y++) {
+		for (int x = 0; x < _width; x++) {
+			_tileMap[y][x]->SetPosition(posX, posY);
+			posX += _tileSize;
+		}
+		posX = _startX;
+		posY += _tileSize;
+	}
 }

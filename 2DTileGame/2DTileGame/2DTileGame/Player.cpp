@@ -4,7 +4,7 @@
 #include "Map.h"
 
 Player::Player(LPCWSTR name) : Character(name){
-	_moveTime = 0.5f;
+	_moveTime = 0.3f;
 }
 Player::~Player() {
 

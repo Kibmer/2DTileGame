@@ -7,13 +7,12 @@ class Sprite;
 
 class Character : public Component {
 private:
-	//Sprite* _sprite;
 	std::vector<Sprite*> _spriteList;
 	float _x;
 	float _y;
 
-	int _tileX;
-	int _tileY;
+	//int _tileX;
+	//int _tileY;
 
 
 public:

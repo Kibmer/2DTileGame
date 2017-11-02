@@ -41,4 +41,5 @@ public:
 	void ResetTileComponent(int tileX, int tileY, Component* component);
 
 	bool CanMoveTileMap(int tileX, int tileY);
+	void InitViewer(Component* viewer);
 };
