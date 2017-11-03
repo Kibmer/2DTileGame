@@ -5,7 +5,10 @@
 #include "Map.h"
 #include "NPC.h"
 #include "Player.h"
+#include "Monster.h"
 #include "ComponentSystem.h"
+#include "Component.h"
+#include <list>
 
 GameSystem* GameSystem::_instance = NULL;
 
@@ -60,9 +63,9 @@ GameSystem::GameSystem()
 	_gameTimer = new GameTimer();
 	_isFullScreen = false;
 
-	_map = NULL;
-	_player = NULL;
-	_npc = NULL;
+	//_map = NULL;
+	//_player = NULL;
+	//_npc = NULL;
 }
 GameSystem::~GameSystem()
 {
@@ -128,18 +131,25 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 
 	InitInput();
 
-	_map = new Map(L"Map");
-	_map->Init();
+	_componentList.clear();
 
-	_player = new Player(L"player");
-	_player->SetCanMove(false);
-	_player->Init();
+	Map* map = new Map(L"Map");
+	_componentList.push_back(map);
+	
+	Player* player = new Player(L"player" , L"player");
+	_componentList.push_back(player);
 
-	_npc = new NPC(L"npc");
-	_npc->SetCanMove(false);
-	_npc->Init();
+	NPC* npc = new NPC(L"npc", L"character_sprite2");
+	_componentList.push_back(npc);
+	
+	Monster* monster = new Monster(L"npc", L"character_sprite2");
+	_componentList.push_back(monster);
 
-	_map->InitViewer(_player);
+	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
+		(*it)->Init();
+	}
+
+	map->InitViewer(player);
 
 	return true;
 }
@@ -166,9 +176,14 @@ int GameSystem::Update()
 			float secPerFrame = 1.0f / 60.0f;
 			_frameDuration += deltaTime;
 
-			_map->Update(deltaTime);
+			/*_map->Update(deltaTime);
 			_player->Update(deltaTime);
 			_npc->Update(deltaTime);
+			_monster->Update(deltaTime);*/
+
+			for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
+				(*it)->Update(deltaTime);
+			}
 
 			if (secPerFrame <= _frameDuration)
 			{
@@ -183,10 +198,15 @@ int GameSystem::Update()
 				
 				_sprite->Begin(D3DXSPRITE_ALPHABLEND);
 				
-				_map->Render();
+				/*_map->Render();
 				_player->Render();
 				_npc->Render();
-			
+				_monster->Render();
+*/
+				for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
+					(*it)->Render();
+				}
+
 				_sprite->End();
 				
 				_device3d->EndScene();
@@ -284,16 +304,25 @@ void GameSystem::CheckDeviceLost()
 		}
 		else if (D3DERR_DEVICENOTRESET == hr) //device 다시 작동 가능
 		{
-			_map->Release();
+			/*_map->Release();
 			_player->Release();
 			_npc->Release();
+			_monster->Release();*/
+			for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
+				(*it)->Release();
+			}
 
 			InitDirect3D();
 			hr = _device3d->Reset(&_d3dpp);
 			
-			_map->Reset();
+			/*_map->Reset();
 			_player->Reset();
 			_npc->Reset();
+			_monster->Reset();*/
+
+			for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
+				(*it)->Reset();
+			}
 		}
 	}
 }
@@ -320,8 +349,4 @@ bool GameSystem::IsKeyDown(unsigned int keyCode) {
 
 LPDIRECT3DDEVICE9 GameSystem::GetDevice() {
 	return _device3d;
-}
-
-void GameSystem::MapScrollTest(float deltaX, float deltaY) {
-	_map->Scroll(deltaX, deltaY);
 }

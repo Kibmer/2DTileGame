@@ -2,22 +2,20 @@
 #include <d3dx9.h>
 #include "Component.h"
 #include <vector>
+#include <string>
 
 class Sprite;
 
 class Character : public Component {
 private:
 	std::vector<Sprite*> _spriteList;
+	std::wstring _textureFilename;
 	float _x;
 	float _y;
 
-	//int _tileX;
-	//int _tileY;
-
-
 public:
-	Character(LPCWSTR name);
-	~Character();
+	Character(LPCWSTR name, LPCWSTR textureFilename);
+	virtual ~Character();
 
 public:
 	void Init();
@@ -30,6 +28,7 @@ public:
 	//transform
 public:
 	virtual void MoveDeltaPosition(float deltaX, float deltaY);
+	void SetPosition(float posX, float posY);
 
 public:
 	virtual void UpdateAI(float deltaTime);

@@ -5,13 +5,14 @@ class Component {
 protected:
 	LPCWSTR _name;
 	bool _canMove;
+	Component* _viewer;
 
 	int _tileX;
 	int _tileY;
 
 public:
 	Component() {
-		_canMove = true;
+		_canMove = false;
 	}
 	Component(LPCWSTR name);
 	virtual ~Component();

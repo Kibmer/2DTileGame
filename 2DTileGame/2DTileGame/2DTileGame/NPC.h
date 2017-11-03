@@ -4,9 +4,6 @@
 
 class NPC : public Character{
 public:
-	NPC(LPCWSTR name);
+	NPC(LPCWSTR name, LPCWSTR textureFilename);
 	~NPC();
-
-public:
-	void UpdateAI(float deltaTime);
 };

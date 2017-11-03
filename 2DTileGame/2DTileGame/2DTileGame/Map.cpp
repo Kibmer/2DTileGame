@@ -70,6 +70,7 @@ void Map::Init()
 						WCHAR componentName[256];
 						wprintf(componentName, L"map_layer01_%d_%d", line, x);
 						TileObject* tileObject = new TileObject(componentName, _spriteList[index]);
+						tileObject->SetCanMove(true);
 						tileCell->AddComponent(tileObject, true);
 						rowList.push_back(tileCell);
 						token = strtok(NULL, ",");
@@ -192,6 +193,24 @@ void Map::Update(float deltaTime)
 }
 void Map::Render()
 {
+	int midX = GameSystem::GetInstance()->GetClientWidth() / 2;
+	int midY = GameSystem::GetInstance()->GetClientHeight() / 2;
+
+	int minX = _viewer->GetTileX() - (midX / _tileSize) - 1;
+	int maxX = _viewer->GetTileX() - (midX / _tileSize) + 1;
+	int minY = _viewer->GetTileY() - (midX / _tileSize) - 1;
+	int maxY = _viewer->GetTileY() - (midX / _tileSize) + 1;
+
+	// 범위가 벗어날 경우 보정
+	if (minX < 0)
+		minX = 0;
+	if (_width <= maxX)
+		maxX = _width;
+	if (minY < 0)
+		minY = 0;
+	if (_height <= maxY)
+		maxY = _height;
+
 	for (int y = 0; y < _height; y++)
 	{
 		for (int x = 0; x < _width; x++)
@@ -258,21 +277,14 @@ bool Map::CanMoveTileMap(int tileX, int tileY) {
 
 
 void Map::InitViewer(Component* viewer) {
-	Component* _viewer = viewer;
+	_viewer = viewer;
 	// 뷰어를 중심으로 렌더링할 영역을 구한다.
 	int midX = GameSystem::GetInstance()->GetClientWidth() / 2;
 	int midY = GameSystem::GetInstance()->GetClientHeight() / 2;
-
-	// 최소 x = 뷰어의 현재 타일 x의 위치 - (중심축 / 타일사이즈)-1,
+	/*
 	int minX = _viewer->GetTileX() - (midX / _tileSize) - 1;
-
-	// 최대 x = 뷰어의 현재 타일 x의 위치 + (중심축 / 타일사이즈)+1,
 	int maxX = _viewer->GetTileX() - (midX / _tileSize) + 1;
-
-	// 최소 y = 뷰어의 현재 타일 y의 위치 - (중심축 / 타일사이즈)-1, 
 	int minY = _viewer->GetTileY() - (midX / _tileSize) - 1;
-
-	// 최대 y = 뷰어의 현재 타일 y의 위치 - (중심축 / 타일사이즈)+1
 	int maxY = _viewer->GetTileY() - (midX / _tileSize) + 1;
 
 	// 범위가 벗어날 경우 보정
@@ -284,7 +296,7 @@ void Map::InitViewer(Component* viewer) {
 		minY = 0;
 	if (_height <= maxY)
 		maxY = _height - 1;
-
+	*/
 	// 뷰어의 위치를 기준으로 시작 픽셀 위치를 계산
 	_startX = (-_viewer->GetTileX() * _tileSize) + midX - _tileSize / 2;
 	_startY = (-_viewer->GetTileY() * _tileSize) + midY - _tileSize / 2;

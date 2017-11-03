@@ -2,14 +2,12 @@
 #include "Sprite.h"
 #include "ComponentSystem.h"
 #include "Map.h"
+#include <list>
 
-Character::Character(LPCWSTR name) : Component(name) {
-	_targetX = 0.0f;
-	_targetY = 0.0f;
-	_moveDistancePerTimeX = 0.0f;
-	_moveDistancePerTimeY = 0.0f;
+Character::Character(LPCWSTR name, LPCWSTR textureFilename) : Component(name) {
+
 	_spriteList.clear();
-
+	_textureFilename = textureFilename;
 	_moveTime = 1.0f;
 }
 
@@ -24,30 +22,27 @@ void Character::Init() {
 	wsprintf(scriptFilename, L"%s.json", _name);
 	_sprite = new Sprite(textureFilename, scriptFilename);
 	_sprite->Init();*/
+	wsprintf(textureFilename, L"%s.png", _textureFilename.c_str());
 
 	{
-		wsprintf(textureFilename, L"%s.png", _name);
 		wsprintf(scriptFilename, L"%s_left.json", _name);
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
 		_spriteList.push_back(sprite);
 	}
 	{
-		wsprintf(textureFilename, L"%s.png", _name);
 		wsprintf(scriptFilename, L"%s_right.json", _name);
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
 		_spriteList.push_back(sprite);
 	}
 	{
-		wsprintf(textureFilename, L"%s.png", _name);
 		wsprintf(scriptFilename, L"%s_up.json", _name);
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
 		_spriteList.push_back(sprite);
 	}
 	{
-		wsprintf(textureFilename, L"%s.png", _name);
 		wsprintf(scriptFilename, L"%s_down.json", _name);
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
@@ -112,8 +107,16 @@ void Character::MoveDeltaPosition(float deltaX, float deltaY) {
 	_y += deltaY;
 }
 
-void Character::UpdateAI(float deltaTime) {
+void Character::SetPosition(float posX, float posY) {
+	_x = posX;
+	_y = posY;
+}
 
+void Character::UpdateAI(float deltaTime) {
+	if (false == _isMoving) {
+		int direction = rand() % 4;
+		MoveStart((eDirection)direction);
+	}
 }
 
 void Character::InitMove() {
@@ -147,10 +150,18 @@ void Character::MoveStart(eDirection direction) {
 		newTileY++;
 		break;
 	}
-
+/*
 	if (false == map->CanMoveTileMap(newTileX, newTileY))
 		return;
+*/
+	std::list<Component*> collisionList;
+	bool canMove = map->GetTileCollisionList(newTileX, newTileY, collisionList);
+	if (false == canMove) {
+		//collisionList ¼øÈ¯
+		{
 
+		}
+	}
 	map->ResetTileComponent(_tileX, _tileY, this);
 	_tileX = newTileX;
 	_tileY = newTileY;

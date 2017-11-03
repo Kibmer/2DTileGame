@@ -4,7 +4,7 @@
 
 class Player : public Character {
 public:
-	Player(LPCWSTR name);
+	Player(LPCWSTR name, LPCWSTR textureFilename);
 	~Player();
 	
 	//AI
