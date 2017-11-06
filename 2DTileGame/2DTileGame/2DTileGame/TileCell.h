@@ -35,4 +35,5 @@ public:
 	void RemoveComponent(Component* component);
 
 	bool CanMove();
+	bool GetCollisionList(std::list<Component*>& collisionList);
 };

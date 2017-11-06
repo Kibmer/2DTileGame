@@ -275,6 +275,18 @@ bool Map::CanMoveTileMap(int tileX, int tileY) {
 	return _tileMap[tileY][tileX]->CanMove();
 }
 
+bool Map::GetTileCollisionList(int tileX, int tileY, std::list<Component*>& collisionList) {
+	if (tileX < 0)
+		return false;
+	if (_width <= tileX)
+		return false;
+	if (tileY < 0)
+		return false;
+	if (_width <= tileY)
+		return false;
+
+	return _tileMap[tileY][tileX]->GetCollisionList(collisionList);
+}
 
 void Map::InitViewer(Component* viewer) {
 	_viewer = viewer;
@@ -300,7 +312,7 @@ void Map::InitViewer(Component* viewer) {
 	// 뷰어의 위치를 기준으로 시작 픽셀 위치를 계산
 	_startX = (-_viewer->GetTileX() * _tileSize) + midX - _tileSize / 2;
 	_startY = (-_viewer->GetTileY() * _tileSize) + midY - _tileSize / 2;
-
+	
 	// 해당 위치에 맞게 타일을 그려줌
 	float posX = _startX;
 	float posY = _startY;

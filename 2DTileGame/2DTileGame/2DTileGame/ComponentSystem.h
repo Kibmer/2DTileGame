@@ -2,6 +2,7 @@
 #include <d3dx9.h>
 #include <string>
 #include <map>
+#include <string>
 #include "Component.h"
 
 class ComponentSystem {
@@ -24,4 +25,7 @@ public:
 	void Addcomponent(std::wstring name, Component* com);
 	void RemoveAllComponents();
 	Component* FindComponent(std::wstring name);
+
+public:
+	void SendMessage(Component* sender, Component* receiver, std::wstring messeage);
 };

@@ -4,6 +4,6 @@
 
 class NPC : public Character{
 public:
-	NPC(LPCWSTR name, LPCWSTR textureFilename);
+	NPC(LPCWSTR name, LPCWSTR scriptName, LPCWSTR textureFilename);
 	~NPC();
 };

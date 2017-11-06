@@ -43,3 +43,7 @@ Component* ComponentSystem::FindComponent(std::wstring name) {
 	}
 	return 0;
 }
+
+void ComponentSystem::SendMessage(Component* sender, Component* receiver, std::wstring messeage) {
+	receiver->ReceiveMessage(sender, messeage);
+}

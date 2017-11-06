@@ -2,6 +2,7 @@
 #include <d3dx9.h>
 #include <vector>
 #include "Component.h"
+#include <list>
 
 class Sprite;
 class TileCell;
@@ -41,5 +42,7 @@ public:
 	void ResetTileComponent(int tileX, int tileY, Component* component);
 
 	bool CanMoveTileMap(int tileX, int tileY);
+	bool GetTileCollisionList(int tileX, int tileY, std::list<Component*>& collisionList);
+
 	void InitViewer(Component* viewer);
 };

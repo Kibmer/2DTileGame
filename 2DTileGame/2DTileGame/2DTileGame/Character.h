@@ -9,12 +9,13 @@ class Sprite;
 class Character : public Component {
 private:
 	std::vector<Sprite*> _spriteList;
+	std::wstring _scriptFilename;
 	std::wstring _textureFilename;
 	float _x;
 	float _y;
 
 public:
-	Character(LPCWSTR name, LPCWSTR textureFilename);
+	Character(LPCWSTR name, LPCWSTR scriptName ,LPCWSTR textureFilename);
 	virtual ~Character();
 
 public:

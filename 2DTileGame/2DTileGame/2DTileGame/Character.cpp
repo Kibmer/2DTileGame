@@ -4,10 +4,11 @@
 #include "Map.h"
 #include <list>
 
-Character::Character(LPCWSTR name, LPCWSTR textureFilename) : Component(name) {
+Character::Character(LPCWSTR name, LPCWSTR scriptName, LPCWSTR textureFilename) : Component(name) {
 
 	_spriteList.clear();
 	_textureFilename = textureFilename;
+	_scriptFilename = scriptName;
 	_moveTime = 1.0f;
 }
 
@@ -25,25 +26,25 @@ void Character::Init() {
 	wsprintf(textureFilename, L"%s.png", _textureFilename.c_str());
 
 	{
-		wsprintf(scriptFilename, L"%s_left.json", _name);
+		wsprintf(scriptFilename, L"%s_left.json", _scriptFilename.c_str());
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
 		_spriteList.push_back(sprite);
 	}
 	{
-		wsprintf(scriptFilename, L"%s_right.json", _name);
+		wsprintf(scriptFilename, L"%s_right.json", _scriptFilename.c_str());
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
 		_spriteList.push_back(sprite);
 	}
 	{
-		wsprintf(scriptFilename, L"%s_up.json", _name);
+		wsprintf(scriptFilename, L"%s_up.json", _scriptFilename.c_str());
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
 		_spriteList.push_back(sprite);
 	}
 	{
-		wsprintf(scriptFilename, L"%s_down.json", _name);
+		wsprintf(scriptFilename, L"%s_down.json", _scriptFilename.c_str());
 		Sprite* sprite = new Sprite(textureFilename, scriptFilename);
 		sprite->Init();
 		_spriteList.push_back(sprite);
@@ -53,8 +54,6 @@ void Character::Init() {
 		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
 		_tileX = 7;
 		_tileY = 3;
-		_x = map->GetPositionX(_tileX, _tileY);
-		_y = map->GetPositionY(_tileX, _tileY);
 		map->SetTileComponent(_tileX, _tileY, this, false);
 	}
 
@@ -159,7 +158,12 @@ void Character::MoveStart(eDirection direction) {
 	if (false == canMove) {
 		//collisionList ¼øÈ¯
 		{
+			for (std::list<Component*>::iterator it = collisionList.begin(); it != collisionList.end(); it++) {
+				ComponentSystem::GetInstance()->SendMessage(this, (*it), L"Collision");
 
+			}
+
+			return;
 		}
 	}
 	map->ResetTileComponent(_tileX, _tileY, this);

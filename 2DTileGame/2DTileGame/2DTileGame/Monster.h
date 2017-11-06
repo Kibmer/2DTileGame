@@ -3,6 +3,6 @@
 
 class Monster : public Character {
 public:
-	Monster(LPCWSTR name, LPCWSTR textureFilename);
+	Monster(LPCWSTR name, LPCWSTR scriptName, LPCWSTR textureFilename);
 	~Monster();
 };

@@ -3,7 +3,7 @@
 #include "ComponentSystem.h"
 #include "Map.h"
 
-Player::Player(LPCWSTR name, LPCWSTR textureFilename) : Character(name, textureFilename){
+Player::Player(LPCWSTR name, LPCWSTR scriptName, LPCWSTR textureFilename) : Character(name, scriptName, textureFilename){
 	_moveTime = 0.3f;
 }
 Player::~Player() {

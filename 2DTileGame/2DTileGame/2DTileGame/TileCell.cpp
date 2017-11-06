@@ -84,3 +84,16 @@ bool TileCell::CanMove() {
 
 	return true;
 }
+
+bool TileCell::GetCollisionList(std::list<Component*>& collisionList) {
+	collisionList.clear();
+	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++)
+	{
+		if (false == (*it)->CanMove())
+			collisionList.push_back((*it));
+	}
+
+	if (0 == collisionList.size())
+		return true;
+	return false;
+}
