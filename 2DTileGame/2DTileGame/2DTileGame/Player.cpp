@@ -36,21 +36,23 @@ void Player::UpdateMove(float deltaTime) {
 		_movingDuration = 0.0f;
 		_isMoving = false;
 
+		_moveDistancePerTimeX = 0.0f;
+		_moveDistancePerTimeY = 0.0f;
+		/*Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
+		map->Scroll(0.0f, 0.0f);*/
 		/*_x = map->GetPositionX(_tileX, _tileY);
 		_y = map->GetPositionY(_tileX, _tileY);*/
-		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
-		map->Scroll(0.0f, 0.0f);
 	}
 	else {
 		_movingDuration += deltaTime;
 
-		float moveDistanceX = _moveDistancePerTimeX * deltaTime;
-		float moveDistanceY = _moveDistancePerTimeY * deltaTime;
+		/*float moveDistanceX = _moveDistancePerTimeX * deltaTime;
+		float moveDistanceY = _moveDistancePerTimeY * deltaTime;*/
 
 		/*_x += moveDistanceX;
 		_y += moveDistanceY;*/
-		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
-		map->Scroll(-moveDistanceX, -moveDistanceY);
+		/*Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
+		map->Scroll(-moveDistanceX, -moveDistanceY);*/
 	}
 }
 

@@ -139,12 +139,14 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 	Player* player = new Player(L"player", L"player", L"player");
 	_componentList.push_back(player);
 
-	for (int i = 0; i < 100; i++) {
+	NPC* npc = new NPC(L"npc", L"npc", L"character_sprite2");
+	_componentList.push_back(npc);
+	/*for (int i = 0; i < 1; i++) {
 		WCHAR name[256];
 		wsprintf(name, L"npc_%d", i);
 		NPC* npc = new NPC(name, L"npc", L"character_sprite2");
 		_componentList.push_back(npc);
-	}
+	}*/
 
 	
 	Monster* monster = new Monster(L"monster", L"monster",  L"character_sprite2");
@@ -154,6 +156,7 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 		(*it)->Init();
 	}
 
+	//map->InitViewer(npc);
 	map->InitViewer(player);
 
 	return true;

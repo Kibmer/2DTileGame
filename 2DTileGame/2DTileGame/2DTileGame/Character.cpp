@@ -52,8 +52,11 @@ void Character::Init() {
 	{
 
 		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
-		_tileX = 7;
-		_tileY = 3;
+		_tileX = rand() % (map->GetWidth() - 1) + 1;
+		_tileY = rand() % (map->GetHeight() - 1) + 1;
+
+		/*_x = map->GetPositionX(_tileX, _tileY);
+		_y = map->GetPositionY(_tileX, _tileY);*/
 		map->SetTileComponent(_tileX, _tileY, this, false);
 	}
 
@@ -234,6 +237,9 @@ void Character::UpdateMove(float deltaTime) {
 		Map* map = (Map*)ComponentSystem::GetInstance()->FindComponent(L"Map");
 		_x = map->GetPositionX(_tileX, _tileY);
 		_y = map->GetPositionY(_tileX, _tileY);
+
+		_moveDistancePerTimeX = 0.0f;
+		_moveDistancePerTimeY = 0.0f;
 	}
 	else {
 		_movingDuration += deltaTime;

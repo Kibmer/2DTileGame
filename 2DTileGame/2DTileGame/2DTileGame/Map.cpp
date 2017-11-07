@@ -190,6 +190,12 @@ void Map::Update(float deltaTime)
 			_tileMap[y][x]->Update(deltaTime);
 		}
 	}
+
+	if (NULL != _viewer) {
+		float deltaX = _viewer->GetMoveDeltaX() * deltaTime;
+		float deltaY = _viewer->GetMoveDeltaY() * deltaTime;
+		Scroll(_deltaX, _deltaY);
+	}
 }
 void Map::Render()
 {
@@ -218,6 +224,15 @@ void Map::Render()
 			_tileMap[y][x]->Render();
 		}
 	}
+	/*
+	for (int y = minY; y < maxY; y++)
+	{
+		for (int x = minX; x < maxX; x++)
+		{
+			_tileMap[y][x]->Render();
+		}
+	}
+	*/
 }
 void Map::Release()
 {
@@ -255,11 +270,11 @@ int Map::GetPositionY(int tileX, int tileY) {
 }
 
 void Map::SetTileComponent(int tileX, int tileY, Component* component, bool isRender) {
-	_tileMap[tileX][tileY]->AddComponent(component, false);
+	_tileMap[tileY][tileX]->AddComponent(component, false);
 }
 
 void Map::ResetTileComponent(int tileX, int tileY, Component* component) {
-	_tileMap[tileX][tileY]->RemoveComponent(component);
+	_tileMap[tileY][tileX]->RemoveComponent(component);
 }
 
 bool Map::CanMoveTileMap(int tileX, int tileY) {
@@ -288,6 +303,13 @@ bool Map::GetTileCollisionList(int tileX, int tileY, std::list<Component*>& coll
 	return _tileMap[tileY][tileX]->GetCollisionList(collisionList);
 }
 
+int Map::GetWidth() {
+	return _width;
+}
+int Map::GetHeight() {
+	return _height;
+}
+
 void Map::InitViewer(Component* viewer) {
 	_viewer = viewer;
 	// 뷰어를 중심으로 렌더링할 영역을 구한다.
@@ -313,6 +335,8 @@ void Map::InitViewer(Component* viewer) {
 	_startX = (-_viewer->GetTileX() * _tileSize) + midX - _tileSize / 2;
 	_startY = (-_viewer->GetTileY() * _tileSize) + midY - _tileSize / 2;
 	
+	//_startX = 0;
+	//_startY = 0;
 	// 해당 위치에 맞게 타일을 그려줌
 	float posX = _startX;
 	float posY = _startY;

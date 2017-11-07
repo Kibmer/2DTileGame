@@ -11,6 +11,9 @@ protected:
 	int _tileX;
 	int _tileY;
 
+	float _moveDistancePerTimeX;
+	float _moveDistancePerTimeY;
+
 public:
 	Component() {
 		_canMove = false;
@@ -33,6 +36,9 @@ public:
 
 	int GetTileX() { return _tileX; }
 	int GetTileY() { return _tileY; }
+
+	float GetMoveDeltaX() { return _moveDistancePerTimeX; };
+	float GetMoveDeltaY() { return _moveDistancePerTimeY; };
 
 	// Message
 public:
