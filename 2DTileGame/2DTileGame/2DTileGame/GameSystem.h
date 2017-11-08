@@ -7,9 +7,6 @@
 #define RELEASE_COM(x) {if(x != NULL) {x->Release(); x = NULL;}}
 #define SAFE_DELETE(x) {if(x) {delete x; x = NULL;}}
 
-//#define MAP_WIDTH 100
-//#define MAP_HEIGHT 100
-
 class Map;
 class Character;
 class GameTimer;

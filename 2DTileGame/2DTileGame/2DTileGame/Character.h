@@ -46,8 +46,6 @@ public:
 protected:
 	float _targetX;
 	float _targetY;
-	/*float _moveDistancePerTimeX;
-	float _moveDistancePerTimeY;*/
 
 	bool _isMoving;
 	float _moveTime;

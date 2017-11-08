@@ -19,10 +19,7 @@ Character::~Character() {
 void Character::Init() {
 	WCHAR textureFilename[256];
 	WCHAR scriptFilename[256];
-	/*wsprintf(textureFilename, L"%s.png", _name);
-	wsprintf(scriptFilename, L"%s.json", _name);
-	_sprite = new Sprite(textureFilename, scriptFilename);
-	_sprite->Init();*/
+
 	wsprintf(textureFilename, L"%s.png", _textureFilename.c_str());
 
 	{
@@ -55,8 +52,6 @@ void Character::Init() {
 		_tileX = rand() % (map->GetWidth() - 1) + 1;
 		_tileY = rand() % (map->GetHeight() - 1) + 1;
 
-		/*_x = map->GetPositionX(_tileX, _tileY);
-		_y = map->GetPositionY(_tileX, _tileY);*/
 		map->SetTileComponent(_tileX, _tileY, this, false);
 	}
 
@@ -64,11 +59,6 @@ void Character::Init() {
 }
 
 void Character::Deinit() {
-	/*if (_sprite != NULL) {
-		_sprite->Deinit();
-		delete _sprite;
-		_sprite = NULL;
-	}*/
 	for (int i = 0; i < _spriteList.size(); i++) {
 		_spriteList[i]->Deinit();
 		delete _spriteList[i];
@@ -84,21 +74,17 @@ void Character::Update(float deltaTime) {
 }
 
 void Character::Render() {
-	/*_sprite->SetPosition(_x, _y);
-	_sprite->Render();*/
 	_spriteList[(int)_currentDirection]->SetPosition(_x, _y);
 	_spriteList[(int)_currentDirection]->Render();
 }
 
 void Character::Release() {
-	//_sprite->Release();
 	for (int i = 0; i < _spriteList.size(); i++) {
 		_spriteList[i]->Release();
 	}
 }
 
 void Character::Reset() {
-	//_sprite->Reset();
 	for (int i = 0; i < _spriteList.size(); i++) {
 		_spriteList[i]->Reset();
 	}
@@ -152,58 +138,18 @@ void Character::MoveStart(eDirection direction) {
 		newTileY++;
 		break;
 	}
-/*
-	if (false == map->CanMoveTileMap(newTileX, newTileY))
-		return;
-*/
 	std::list<Component*> collisionList;
 	bool canMove = map->GetTileCollisionList(newTileX, newTileY, collisionList);
 	if (false == canMove) {
-		//collisionList 순환
-		{
-			for (std::list<Component*>::iterator it = collisionList.begin(); it != collisionList.end(); it++) {
-				ComponentSystem::GetInstance()->SendMessage(this, (*it), L"Collision");
+		for (std::list<Component*>::iterator it = collisionList.begin(); it != collisionList.end(); it++) {
+			ComponentSystem::GetInstance()->SendMessage(this, (*it), L"Collision");
 
-			}
-
-			return;
 		}
+		return;
 	}
 	map->ResetTileComponent(_tileX, _tileY, this);
 	_tileX = newTileX;
 	_tileY = newTileY;
-
-	//switch (direction) {
-	//case eDirection::LEFT: // left
-	//	_tileX--;
-	//	if (_tileX < 0) {
-	//		_tileX = 0;
-	//	}
-	//	break;
-	//case eDirection::RIGHT: // right
-	//	_tileX++;
-	//	if (_tileX > 30) {
-	//		_tileX = 0;
-	//	}
-	//	break;
-	//case eDirection::UP: // up
-	//	_tileY--;
-	//	if (_tileY < 0) {
-	//		_tileY = 0;
-	//	}
-	//	break;
-	//case eDirection::DOWN: // down
-	//	_tileY++;
-	//	if (_tileX > 30) {
-	//		_tileX = 0;
-	//	}
-	//	break;
-	//}
-/*
-	_x = map->GetPositionX(_tileX, _tileY);
-	_y = map->GetPositionY(_tileX, _tileY);
-	map->SetTileComponent(_tileX, _tileY, this);
-*/
 
 	// 자연스러운 이동을 위한 보간
 	{
@@ -220,9 +166,7 @@ void Character::MoveStart(eDirection direction) {
 		_moveDistancePerTimeX = distanceX / _moveTime;
 		_moveDistancePerTimeY = distanceY / _moveTime;
 	}
-
 	_isMoving = true;
-
 }
 
 void Character::UpdateMove(float deltaTime) {

@@ -16,6 +16,6 @@ public:
 
 	float GetDeltaTime();
 
-	void Reset();	// 업데이트 전 한번 호출
-	void Update();	// 매 프레임마다 호출
+	void Reset();
+	void Update();
 };

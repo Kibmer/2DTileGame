@@ -103,11 +103,6 @@ void Sprite::Update(float deltaTime)
 		_frameTime = 0.0f;
 		_currentFrame = (_currentFrame + 1) % _frameList.size();
 	}
-	/*
-	누적된 시간이, 프레임 딜레이를 넘어가면
-		다음 프레임
-		누적된 시간은 다시 리셋
-	*/
 }
 void Sprite::Render()
 {

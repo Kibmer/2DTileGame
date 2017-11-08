@@ -32,7 +32,6 @@ void TileCell::Reset() {
 void TileCell::SetPosition(float posX, float posY) {
 	_posX = posX;
 	_posY = posY;
-	//_sprite->SetPosition(posX, posY);
 
 	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++)
 	{
@@ -40,15 +39,9 @@ void TileCell::SetPosition(float posX, float posY) {
 	}
 }
 
-//void TileCell::SetSprite(Sprite* sprite) {
-//	_sprite = sprite;
-//}
-
-
 void TileCell::MoveDeltaPosition(float deltaX, float deltaY) {
 	_posX += deltaX;
 	_posY += deltaY;
-	//_sprite->SetPosition(_posX, _posY);
 
 	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++)
 	{

@@ -138,26 +138,19 @@ bool GameSystem::InitSystem(HINSTANCE hInstance, int nCmdShow)
 	
 	Player* player = new Player(L"player", L"player", L"player");
 	_componentList.push_back(player);
-
+	
 	NPC* npc = new NPC(L"npc", L"npc", L"character_sprite2");
 	_componentList.push_back(npc);
-	/*for (int i = 0; i < 1; i++) {
-		WCHAR name[256];
-		wsprintf(name, L"npc_%d", i);
-		NPC* npc = new NPC(name, L"npc", L"character_sprite2");
-		_componentList.push_back(npc);
-	}*/
-
 	
 	Monster* monster = new Monster(L"monster", L"monster",  L"character_sprite2");
 	_componentList.push_back(monster);
-
+	
 	for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
 		(*it)->Init();
 	}
 
-	//map->InitViewer(npc);
-	map->InitViewer(player);
+	map->InitViewer(npc);
+	//map->InitViewer(player);
 
 	return true;
 }
@@ -184,11 +177,6 @@ int GameSystem::Update()
 			float secPerFrame = 1.0f / 60.0f;
 			_frameDuration += deltaTime;
 
-			/*_map->Update(deltaTime);
-			_player->Update(deltaTime);
-			_npc->Update(deltaTime);
-			_monster->Update(deltaTime);*/
-
 			for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
 				(*it)->Update(deltaTime);
 			}
@@ -196,7 +184,6 @@ int GameSystem::Update()
 			if (secPerFrame <= _frameDuration)
 			{
 				wchar_t timeCheck[256];
-				//swprintf(timeCheck, L"deltaTime %f\n", _frameDuration);
 				OutputDebugString(timeCheck);
 
 				_frameDuration = 0.0f;
@@ -205,12 +192,7 @@ int GameSystem::Update()
 				_device3d->BeginScene();
 				
 				_sprite->Begin(D3DXSPRITE_ALPHABLEND);
-				
-				/*_map->Render();
-				_player->Render();
-				_npc->Render();
-				_monster->Render();
-*/
+
 				for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
 					(*it)->Render();
 				}
@@ -303,7 +285,7 @@ bool GameSystem::InitDirect3D()
 void GameSystem::CheckDeviceLost()
 {
 	HRESULT hr = _device3d->TestCooperativeLevel();
-	if (FAILED(hr)) //유효한 상태가 아니라면 failed가 fail되었다. device 오류 
+	if (FAILED(hr))
 	{
 		if (D3DERR_DEVICELOST == hr) //device로스트 상태가 되어 현재는 복구 불가능->실패는 아니야
 		{
@@ -312,10 +294,6 @@ void GameSystem::CheckDeviceLost()
 		}
 		else if (D3DERR_DEVICENOTRESET == hr) //device 다시 작동 가능
 		{
-			/*_map->Release();
-			_player->Release();
-			_npc->Release();
-			_monster->Release();*/
 			for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
 				(*it)->Release();
 			}
@@ -323,11 +301,6 @@ void GameSystem::CheckDeviceLost()
 			InitDirect3D();
 			hr = _device3d->Reset(&_d3dpp);
 			
-			/*_map->Reset();
-			_player->Reset();
-			_npc->Reset();
-			_monster->Reset();*/
-
 			for (std::list<Component*>::iterator it = _componentList.begin(); it != _componentList.end(); it++) {
 				(*it)->Reset();
 			}

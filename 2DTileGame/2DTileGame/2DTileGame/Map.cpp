@@ -61,7 +61,6 @@ void Map::Init()
 			default:
 				//map data
 				if (NULL != token) {
-					//std::vector<Sprite*> rowList;
 					std::vector<TileCell*> rowList;
 					for (int x = 0; x < _width; x++)
 					{
@@ -102,7 +101,6 @@ void Map::Init()
 			default:
 				//map data
 				if (NULL != token) {
-					//std::vector<Sprite*> rowList;
 					std::vector<TileCell*> rowList = _tileMap[row];
 					for (int x = 0; x < _width; x++)
 					{
@@ -124,49 +122,6 @@ void Map::Init()
 			line++;
 		}
 	}
-
-	//_startX += _deltaX;
-	//_startY += _deltaY;
-	//float posX = _startX;
-	//float posY = _startY;
-
-	//for (int y = 0; y < _height; y++)
-	//{
-	//	for (int x = 0; x < _width; x++)
-	//	{
-	//		_tileMap[y][x]->SetPosition(posX, posY);
-	//		posX += _tileSize; //tileSize = 32
-	//	}
-	//	posX = _startX;
-	//	posY += _tileSize;
-	//}
-	/*
-	for (int y = 0; y < MAP_HEIGHT; y++)
-	{
-		for (int x = 0; x < MAP_WIDTH; x++)
-		{
-			Sprite* sprite;
-			int randValue = rand() % 4;
-			switch (randValue)
-			{
-			case 0:
-				sprite = new Sprite(L"character_sprite.png", L"jsontest_01.json");
-				break;
-			case 1:
-				sprite = new Sprite(L"character_sprite.png", L"jsontest_02.json");
-				break;
-			case 2:
-				sprite = new Sprite(L"character_sprite.png", L"jsontest_03.json");
-				break;
-			case 3:
-				sprite = new Sprite(L"character_sprite.png", L"jsontest_04.json");
-				break;
-			}
-			sprite->Init();
-			_testTileMap[y][x] = sprite;
-		}
-	}
-	*/
 }
 void Map::Deinit()
 {
@@ -194,7 +149,7 @@ void Map::Update(float deltaTime)
 	if (NULL != _viewer) {
 		float deltaX = _viewer->GetMoveDeltaX() * deltaTime;
 		float deltaY = _viewer->GetMoveDeltaY() * deltaTime;
-		Scroll(_deltaX, _deltaY);
+		Scroll(-deltaX, -deltaY);
 	}
 }
 void Map::Render()
@@ -224,15 +179,6 @@ void Map::Render()
 			_tileMap[y][x]->Render();
 		}
 	}
-	/*
-	for (int y = minY; y < maxY; y++)
-	{
-		for (int x = minX; x < maxX; x++)
-		{
-			_tileMap[y][x]->Render();
-		}
-	}
-	*/
 }
 void Map::Release()
 {
@@ -315,28 +261,11 @@ void Map::InitViewer(Component* viewer) {
 	// 뷰어를 중심으로 렌더링할 영역을 구한다.
 	int midX = GameSystem::GetInstance()->GetClientWidth() / 2;
 	int midY = GameSystem::GetInstance()->GetClientHeight() / 2;
-	/*
-	int minX = _viewer->GetTileX() - (midX / _tileSize) - 1;
-	int maxX = _viewer->GetTileX() - (midX / _tileSize) + 1;
-	int minY = _viewer->GetTileY() - (midX / _tileSize) - 1;
-	int maxY = _viewer->GetTileY() - (midX / _tileSize) + 1;
 
-	// 범위가 벗어날 경우 보정
-	if (minX < 0)
-		minX = 0;
-	if (_width <= maxX)
-		maxX = _width - 1;
-	if (minY < 0)
-		minY = 0;
-	if (_height <= maxY)
-		maxY = _height - 1;
-	*/
 	// 뷰어의 위치를 기준으로 시작 픽셀 위치를 계산
 	_startX = (-_viewer->GetTileX() * _tileSize) + midX - _tileSize / 2;
 	_startY = (-_viewer->GetTileY() * _tileSize) + midY - _tileSize / 2;
-	
-	//_startX = 0;
-	//_startY = 0;
+
 	// 해당 위치에 맞게 타일을 그려줌
 	float posX = _startX;
 	float posY = _startY;
